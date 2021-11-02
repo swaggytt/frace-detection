@@ -44,5 +44,4 @@ def main():
         
 
 st.header('Image class predictator')
-st.sidebar.title("First Streamlit Web Application")
 main()
