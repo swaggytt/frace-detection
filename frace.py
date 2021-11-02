@@ -4,7 +4,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import os
 import h5py
-# import cv2
+import cv2
 from PIL import Image
 # from cv2 import imread
 # from cv2 import waitKey
@@ -44,4 +44,5 @@ def main():
         
 
 st.header('Image class predictator')
+st.sidebar.title("First Streamlit Web Application")
 main()
