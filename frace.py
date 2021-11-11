@@ -5,9 +5,8 @@ from deepface import DeepFace
 import torch
 from torchvision import models, transforms
 import torch.nn as nn
-import time
 
-WEIGHT_PATH = "./resnet-18_weight_v14.pth"
+WEIGHT_PATH = "./resnet-18_weight_v17.pth"
 
 # @st.cache
 def deepface(image_file):
@@ -25,7 +24,7 @@ def transforms_picture(face_img):
         transforms.CenterCrop(224),
         # transforms.Grayscale(),
         transforms.ToTensor(),
-        transforms.Normalize(0.5,0.5)
+        # transforms.Normalize(0.5,0.5)
     ])
     image = data_transforms(im)
     image = image.unsqueeze(0)
