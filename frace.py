@@ -7,7 +7,7 @@ from torchvision import models, transforms
 import torch.nn as nn
 import time
 
-WEIGHT_PATH = "./resnet-18_weight_v13_gray.pth"
+WEIGHT_PATH = "./resnet-18_weight_v14.pth"
 
 # @st.cache
 def deepface(image_file):
@@ -23,8 +23,9 @@ def transforms_picture(face_img):
     data_transforms = transforms.Compose([
         transforms.Resize(256),
         transforms.CenterCrop(224),
-        transforms.Grayscale(),
+        # transforms.Grayscale(),
         transforms.ToTensor(),
+        transforms.Normalize(0.5,0.5)
     ])
     image = data_transforms(im)
     image = image.unsqueeze(0)
@@ -38,17 +39,16 @@ def create_model(device):
     num_ftrs = model.fc.in_features
     features = list(model.fc.children())[:-1] # Remove last layer
     #print(features)
-    features.extend([nn.Flatten(),nn.Linear(num_ftrs, 256),nn.ReLU(),nn.Dropout(p=0.8),nn.Linear(256,3),nn.Softmax(dim=1) ]) # Add our layer with 3 outputs
-    #features = [nn.Linear(num_ftrs, 256),nn.Dropout(p=0.8),nn.Linear(256,len(class_names)) ]  # Add our layer with 3 outputs
+    # features.extend([nn.Flatten(),nn.Linear(num_ftrs, 256),nn.ReLU(),nn.Dropout(p=0.8),nn.Linear(256,3),nn.Softmax(dim=1) ]) # Add our layer with 3 outputs
+    features = [nn.Linear(num_ftrs, 256),nn.ReLU(),nn.Dropout(p=0.5),nn.Linear(256,3),nn.Softmax(dim=1) ]  # Add our layer with 3 outputs
     model.fc = nn.Sequential(*features) # Replace the model classifier
 
-    pre_layer = list(model.children())
-    pre_layer.insert(0,nn.Conv2d(1,3,kernel_size=3,stride=1,padding=1,bias=False))# change first layer dim to 1,64 for grayscale
-    model = nn.Sequential(*pre_layer)
+    # pre_layer = list(model.children())
+    # pre_layer.insert(0,nn.Conv2d(1,3,kernel_size=3,stride=1,padding=1,bias=False))# change first layer dim to 1,64 for grayscale
+    # model = nn.Sequential(*pre_layer)
 
     weight = torch.load(WEIGHT_PATH,map_location=device)
     model.load_state_dict(weight)
-    # load_weight = False
 
     return model 
 
