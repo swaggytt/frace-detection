@@ -6,7 +6,7 @@ import torch
 from torchvision import models, transforms
 import torch.nn as nn
 
-WEIGHT_PATH = "./resnet-18_weight_v17.pth"
+WEIGHT_PATH = "./resnet-18_weight_v19.pth"
 
 # @st.cache
 def deepface(image_file):
