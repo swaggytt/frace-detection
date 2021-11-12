@@ -1,3 +1,4 @@
+-f https://download.pytorch.org/whl/torch_stable.html
 deepface==0.0.68
 numpy==1.19.5
 Pillow==8.4.0
