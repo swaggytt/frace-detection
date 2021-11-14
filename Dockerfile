@@ -4,12 +4,10 @@ WORKDIR /usr/app/src
 
 RUN apt-get update -y && \
     apt-get install build-essential cmake pkg-config -y
-RUN pip install dlib==19.9.0
+RUN pip install dlib==19.22.1heroku container:release web --app
 RUN apt install -y libgl1-mesa-glx
 
 COPY requirements.txt requirements.txt
-# COPY resnet-18_weight_v19.pth/ .
-# ENV PATH="/opt/gtk/bin:${PATH}"
 
 RUN pip install -r requirements.txt
 
