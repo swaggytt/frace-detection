@@ -5,6 +5,7 @@ from deepface import DeepFace
 import torch
 from torchvision import models, transforms
 import torch.nn as nn
+import gc
 
 WEIGHT_PATH = "./resnet-18_baseline_augment_sgd.pth"
 
@@ -96,7 +97,18 @@ def main():
             col2.write(f"Malaysian {pred.data[0][1]*100:.2f}%")
             col2.write(f"Thai {pred.data[0][2]*100:.2f}%")
             st.success("Success!")
+
+            del image
+            del new_img
+            del transforms_im
+            del model
+            del pred
+            del pred_idx
     else:
         st.markdown("<h3 style='text-align: center;'>No Result</h1>", unsafe_allow_html=True)
+    del file_upload
+    del col1
+    del col2
+    gc.collect()
 
 main()
